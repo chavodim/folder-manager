@@ -11,12 +11,12 @@ builder.Services.AddScoped<IPieRepository, MockPieRepository>();
 
 var app = builder.Build();
 
-app.UseStaticFiles();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
+
+app.UseStaticFiles();
 
 app.MapDefaultControllerRoute();
 
