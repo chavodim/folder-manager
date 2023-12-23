@@ -1,0 +1,21 @@
+@model FolderManagerApp.ViewModels.PieListModel;
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport">
+    <title>Bethany Pie Shop</title>
+</head>
+<body>
+     <p>@Model.CurrentCategory</p>
+     @foreach (var pie in Model.Pies)
+     {
+         <div>
+             <h3>@pie.Name</h3>
+             <h4>@pie.Price.ToString("c")</h4>
+             <h4>@pie.Category.CategoryName</h4>
+         </div>
+     }
+</body>
+</html>
