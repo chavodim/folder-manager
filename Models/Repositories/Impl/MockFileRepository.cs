@@ -12,7 +12,8 @@ namespace FolderManagerApp.Models.Repositories.Impl
                 FileId = 1,
                 FileName = "File 1",
                 FileData = System.Text.Encoding.UTF8.GetBytes("Hello World!"),
-                FilePath = "C:\\Users\\User\\Desktop\\File 1.txt",
+                FilePath = "~/files/File 1.txt",
+                FileFormat = "txt"
             });
             _files.Add(new CustomFile
             {
@@ -20,6 +21,7 @@ namespace FolderManagerApp.Models.Repositories.Impl
                 FileName = "File 2",
                 FileData = System.Text.Encoding.UTF8.GetBytes("Bye World!"),
                 FilePath = "C:\\Users\\User\\Desktop\\File 2.txt",
+                FileFormat = "txt"
             });
             _files.Add(new CustomFile
             {
@@ -27,6 +29,7 @@ namespace FolderManagerApp.Models.Repositories.Impl
                 FileName = "File 3",
                 FileData = System.Text.Encoding.UTF8.GetBytes("Hello again!"),
                 FilePath = "C:\\Users\\User\\Desktop\\File 3.txt",
+                FileFormat = "txt"
             });
         }
 

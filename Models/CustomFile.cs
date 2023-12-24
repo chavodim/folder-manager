@@ -9,6 +9,8 @@ namespace FolderManagerApp.Models
         public byte[] FileData { get; set; } = new byte[0];
 
         public string FilePath { get; set; } = string.Empty;
+
+        public string FileFormat { get; set; } = string.Empty;
         
     }
 }

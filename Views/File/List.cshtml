@@ -1,0 +1,23 @@
+@model FileListModel
+
+<h3>@Model.Root</h3>
+
+<div class="row">
+
+    @foreach (var file in Model.Files)
+    {
+        <div class="col-8">
+        @* <h4 class="d-grid"></h4> *@
+            <h2 class="text-start">
+                <a class="pie-link">@file.FileName</a>
+            </h2>
+        </div>
+
+        <div class="col-4">
+            <h5>
+                @file.FileFormat
+            </h5>
+        </div>
+    }
+
+</div>
