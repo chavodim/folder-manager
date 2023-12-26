@@ -15,8 +15,7 @@ namespace FolderManagerApp.Controllers
 
         public IActionResult List()
         {
-            FileListModel fileListModel = new FileListModel
-            (_fileRepository.Files, Directory.GetCurrentDirectory());
+            FileListModel fileListModel = new(_fileRepository.Folder);
             return View(fileListModel);
         }
     }

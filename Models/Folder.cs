@@ -7,5 +7,7 @@ namespace FolderManagerApp.Models
         public string FolderName { get; set; } = string.Empty;
 
         public List<CustomFile>? Files { get; set; }
+
+        public Folder? ParentFolder { get; set; }
     }
 }

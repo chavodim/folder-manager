@@ -3,16 +3,12 @@ using FolderManagerApp.Models;
 namespace FolderManagerApp.ViewModels
 {
     public class FileListModel
-    {
-        
-        public string Root;
-        
-        public IEnumerable<CustomFile> Files { get; set; }
+    {        
+        public Folder Folder;
 
-        public FileListModel(IEnumerable<CustomFile> files, string root)
+        public FileListModel(Folder folder)
         {
-            Files = files;
-            Root = root;
+            Folder = folder;
         }
     }
 }
