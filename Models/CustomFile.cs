@@ -2,19 +2,19 @@ namespace FolderManagerApp.Models
 {
     public class CustomFile
     {
-        public int FileId { get; set; }
+        public int CustomFileId { get; set; }
 
-        public string FileName { get; set; } = string.Empty;
+        public string CustomFileName { get; set; } = string.Empty;
 
-        public byte[] FileData { get; set; } = new byte[0];
+        public byte[] CustomFileData { get; set; } = new byte[0];
 
-        public string ParentFolder { get; set; } = string.Empty;
+        public Folder ParentFolder { get; set; } = new Folder();
 
-        public string FileFormat { get; set; } = string.Empty;
+        public string CustomFileFormat { get; set; } = string.Empty;
 
-        public string FilePath
+        public string CustomFilePath
         {
-            get { return ParentFolder + FileName + "." + FileFormat; }
+            get { return ParentFolder + CustomFileName + "." + CustomFileFormat; }
         }
 
     }
