@@ -18,7 +18,7 @@ namespace FolderManagerApp.Models
 
         public string CustomFilePath
         {
-            get { return ParentFolder + CustomFileName + "." + CustomFileFormat; }
+            get { return ParentFolder.FolderName + "/" + CustomFileName + "." + CustomFileFormat; }
         }
 
     }

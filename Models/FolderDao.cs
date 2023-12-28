@@ -16,7 +16,7 @@ namespace FolderManagerApp.Models
 
         public FolderDao? ParentFolder { get; set; }
 
-        public ICollection<FolderDao>? Children { get; set; }
+        public ICollection<FolderDao> Children { get; set; }
 
 
     }

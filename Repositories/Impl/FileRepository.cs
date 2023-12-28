@@ -37,6 +37,11 @@ namespace FolderManagerApp.Repositories.Impl
             return _folderManagerDbContext.Files.FirstOrDefault(f => f.CustomFileId == fileId);
         }
 
+        public List<CustomFileDao>? GetFilesByFolderId(int folderId)
+        {
+            return _folderManagerDbContext.Files.Include(f => f.ParentFolder).Where(f => f.ParentFolderId == folderId).ToList();
+        }
+
         public void SaveFile(CustomFileDao customFile)
         {
             _folderManagerDbContext.Files.Add(customFile);

@@ -6,9 +6,12 @@ namespace FolderManagerApp.ViewModels
     {        
         public FolderDao Folder;
 
-        public FileListModel(FolderDao folder)
+        public List<CustomFileDao>? CustomFiles;
+
+        public FileListModel(FolderDao folder, List<CustomFileDao>? customFiles)
         {
             Folder = folder;
+            CustomFiles = customFiles;
         }
     }
 }

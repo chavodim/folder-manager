@@ -56,17 +56,35 @@ namespace FolderManagerApp.Data
             .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<FolderDao>().HasData(folderDao);
-
-            CustomFileDao file = new()
+            List<CustomFileDao> fileDaos = new List<CustomFileDao>
             {
-                CustomFileId = 1,
-                CustomFileName = "File 1",
-                CustomFileData = System.Text.Encoding.UTF8.GetBytes("Hello World!"),
-                ParentFolderId = 1,
-                CustomFileFormat = "txt"
+                new()
+                {
+                    CustomFileId = 1,
+                    CustomFileName = "File 1",
+                    CustomFileData = System.Text.Encoding.UTF8.GetBytes("Hello World!"),
+                    ParentFolderId = 1,
+                    CustomFileFormat = "txt"
+                },
+                new()
+                {
+                    CustomFileId = 2,
+                    CustomFileName = "File 2",
+                    CustomFileData = System.Text.Encoding.UTF8.GetBytes("Bye World!"),
+                    ParentFolderId = 1,
+                    CustomFileFormat = "txt"
+                },
+                new()
+                {
+                    CustomFileId = 3,
+                    CustomFileName = "File 3",
+                    CustomFileData = System.Text.Encoding.UTF8.GetBytes("Hello again!"),
+                    ParentFolderId = 1,
+                    CustomFileFormat = "txt"
+                }
             };
 
-            modelBuilder.Entity<CustomFileDao>().HasData(file);
+            modelBuilder.Entity<CustomFileDao>().HasData(fileDaos);
 
         }
 
