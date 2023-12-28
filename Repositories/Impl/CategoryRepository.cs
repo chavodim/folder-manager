@@ -1,16 +1,19 @@
+using FolderManagerApp.Data;
+using FolderManagerApp.Models;
+using FolderManagerApp.Repositories;
 
-namespace FolderManagerApp.Models.Repositories.Impl
+namespace FolderManagerApp.Repositories.Impl
 {
     public class CategoryRepository : ICategoryRepository
     {
         private readonly FolderManagerDbContext _folderManagerDbContext;
 
-        public CategoryRepository (FolderManagerDbContext folderManagerDbContext)
+        public CategoryRepository(FolderManagerDbContext folderManagerDbContext)
         {
             _folderManagerDbContext = folderManagerDbContext;
         }
 
-        public IEnumerable<Category> GetAllCategories
+        public IEnumerable<CategoryDao> GetAllCategories
         {
             get
             {
@@ -18,13 +21,13 @@ namespace FolderManagerApp.Models.Repositories.Impl
             }
         }
 
-        public void AddCategory(Category category)
+        public void AddCategory(CategoryDao category)
         {
             _folderManagerDbContext.Categories.Add(category);
             _folderManagerDbContext.SaveChanges();
         }
 
-        public Category? GetCategoryById(int id)
+        public CategoryDao? GetCategoryById(int id)
         {
             return _folderManagerDbContext.Categories.FirstOrDefault(c => c.CategoryId == id);
         }
@@ -39,7 +42,7 @@ namespace FolderManagerApp.Models.Repositories.Impl
             }
         }
 
-        public void UpdateCategory(Category category)
+        public void UpdateCategory(CategoryDao category)
         {
             var persistedCategory = GetCategoryById(category.CategoryId);
             if (persistedCategory != null)

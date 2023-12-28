@@ -1,5 +1,5 @@
 using FolderManagerApp.Models;
-using FolderManagerApp.Models.Repositories;
+using FolderManagerApp.Repositories;
 using FolderManagerApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +16,7 @@ namespace FolderManagerApp.Controllers
 
         public IActionResult List()
         {
-            Folder? persistedFolder = _folderRepository.GetFolderById(1);
+            FolderDao? persistedFolder = _folderRepository.GetFolderById(1);
             if (persistedFolder != null)
             {
                 FileListModel fileListModel = new(persistedFolder);

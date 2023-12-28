@@ -1,7 +1,9 @@
-
+using FolderManagerApp.Data;
+using FolderManagerApp.Models;
+using FolderManagerApp.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace FolderManagerApp.Models.Repositories.Impl
+namespace FolderManagerApp.Repositories.Impl
 {
     public class FileRepository : IFileRepository
     {
@@ -12,7 +14,7 @@ namespace FolderManagerApp.Models.Repositories.Impl
             _folderManagerDbContext = folderManagerDbContext;
         }
 
-        public IEnumerable<CustomFile> Files
+        public IEnumerable<CustomFileDao> Files
         {
             get
             {
@@ -30,12 +32,12 @@ namespace FolderManagerApp.Models.Repositories.Impl
             }
         }
 
-        public CustomFile? GetFileById(int fileId)
+        public CustomFileDao? GetFileById(int fileId)
         {
             return _folderManagerDbContext.Files.FirstOrDefault(f => f.CustomFileId == fileId);
         }
 
-        public void SaveFile(CustomFile customFile)
+        public void SaveFile(CustomFileDao customFile)
         {
             _folderManagerDbContext.Files.Add(customFile);
             _folderManagerDbContext.SaveChanges();

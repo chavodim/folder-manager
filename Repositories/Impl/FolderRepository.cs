@@ -1,16 +1,19 @@
+using FolderManagerApp.Data;
+using FolderManagerApp.Models;
+using FolderManagerApp.Repositories;
 
-namespace FolderManagerApp.Models.Repositories.Impl
+namespace FolderManagerApp.Repositories.Impl
 {
     public class FolderRepository : IFolderRepository
     {
         private readonly FolderManagerDbContext _folderManagerDbContext;
 
-        public FolderRepository (FolderManagerDbContext folderManagerDbContext)
+        public FolderRepository(FolderManagerDbContext folderManagerDbContext)
         {
             _folderManagerDbContext = folderManagerDbContext;
         }
 
-        public IEnumerable<Folder> AllFolders
+        public IEnumerable<FolderDao> AllFolders
         {
             get
             {
@@ -18,13 +21,13 @@ namespace FolderManagerApp.Models.Repositories.Impl
             }
         }
 
-        public void CreateFolder(Folder folder)
+        public void CreateFolder(FolderDao folder)
         {
             _folderManagerDbContext.Folders.Add(folder);
             _folderManagerDbContext.SaveChanges();
         }
 
-        public void DeleteFolder(Folder folder)
+        public void DeleteFolder(FolderDao folder)
         {
             var persistedFolder = GetFolderById(folder.FolderId);
             if (persistedFolder != null)
@@ -34,12 +37,12 @@ namespace FolderManagerApp.Models.Repositories.Impl
             }
         }
 
-        public Folder? GetFolderById(int folderId)
+        public FolderDao? GetFolderById(int folderId)
         {
             return _folderManagerDbContext.Folders.FirstOrDefault(folder => folder.FolderId == folderId);
         }
 
-        public void UpdateFolder(Folder folder)
+        public void UpdateFolder(FolderDao folder)
         {
             var persistedFolder = GetFolderById(folder.FolderId);
             if (persistedFolder != null)

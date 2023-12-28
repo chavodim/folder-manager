@@ -1,4 +1,4 @@
-using FolderManagerApp.Models.Repositories;
+using FolderManagerApp.Repositories;
 using FolderManagerApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 

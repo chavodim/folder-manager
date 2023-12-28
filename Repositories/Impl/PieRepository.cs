@@ -1,7 +1,9 @@
-
+using FolderManagerApp.Data;
+using FolderManagerApp.Models;
+using FolderManagerApp.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace FolderManagerApp.Models.Repositories.Impl
+namespace FolderManagerApp.Repositories.Impl
 {
     public class PieRepository : IPieRepository
     {
@@ -12,7 +14,7 @@ namespace FolderManagerApp.Models.Repositories.Impl
             _folderManagerDbContext = folderManagerDbContext;
         }
 
-        public IEnumerable<Pie> AllPies
+        public IEnumerable<PieDao> AllPies
         {
             get
             {
@@ -20,7 +22,7 @@ namespace FolderManagerApp.Models.Repositories.Impl
             }
         }
 
-        public IEnumerable<Pie> PiesOfTheWeek
+        public IEnumerable<PieDao> PiesOfTheWeek
         {
             get
             {
@@ -31,29 +33,29 @@ namespace FolderManagerApp.Models.Repositories.Impl
         }
 
 
-        public Pie? GetPieById(int pieId)
+        public PieDao? GetPieById(int pieId)
         {
             return _folderManagerDbContext.Pies.FirstOrDefault(p => p.PieId == pieId);
         }
 
 
-        public void CreatePie(Pie pie)
+        public void CreatePie(PieDao pie)
         {
             _folderManagerDbContext.Pies.Add(pie);
             _folderManagerDbContext.SaveChanges();
         }
 
-        public void DeletePie(Pie pie)
+        public void DeletePie(PieDao pie)
         {
             var persistedPie = GetPieById(pie.PieId);
             if (persistedPie != null)
             {
-            _folderManagerDbContext.Remove(persistedPie);
-            _folderManagerDbContext.SaveChanges();
+                _folderManagerDbContext.Remove(persistedPie);
+                _folderManagerDbContext.SaveChanges();
             }
         }
 
-        public void UpdatePie(Pie pie)
+        public void UpdatePie(PieDao pie)
         {
             var persistedPie = GetPieById(pie.PieId);
             if (persistedPie != null)

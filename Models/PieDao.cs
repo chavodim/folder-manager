@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FolderManagerApp.Models
 {
-    public class Pie
+    public class PieDao
     {
+        [Key]
         public int PieId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string? ShortDescription { get; set; }
@@ -17,6 +19,6 @@ namespace FolderManagerApp.Models
         public bool IsPieOfTheWeek { get; set; }
         public bool InStock { get; set; }
         public int CategoryId { get; set; }
-        public Category Category { get; set; } = default!;
+        public CategoryDao Category { get; set; } = default!;
     }
 }

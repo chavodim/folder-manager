@@ -1,7 +1,7 @@
-﻿using FolderManagerApp.Models.Repositories.Impl;
-using FolderManagerApp.Models.Repositories;
-using FolderManagerApp.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using FolderManagerApp.Data;
+using FolderManagerApp.Repositories;
+using FolderManagerApp.Repositories.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +13,8 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IPieRepository, PieRepository>();
 
 builder.Services.AddDbContext<FolderManagerDbContext>(options => {
-    options.UseSqlServer(
-        builder.Configuration["ConnectionStrings:FolderManagerDbContextConnection"]);
+    options.UseSqlServer(builder.Configuration.GetConnectionString("FolderManagerDbContextConnection"));
+    options.EnableSensitiveDataLogging();
 });
 
 var app = builder.Build();

@@ -4,9 +4,9 @@ namespace FolderManagerApp.ViewModels
 {
     public class FileListModel
     {        
-        public Folder Folder;
+        public FolderDao Folder;
 
-        public FileListModel(Folder folder)
+        public FileListModel(FolderDao folder)
         {
             Folder = folder;
         }
