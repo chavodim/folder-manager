@@ -4,14 +4,20 @@ namespace FolderManagerApp.ViewModels
 {
     public class FileListModel
     {        
-        public FolderDao Folder;
+        public FolderDao CurrentFolder;
 
         public List<CustomFileDao>? CustomFiles;
 
-        public FileListModel(FolderDao folder, List<CustomFileDao>? customFiles)
+        public List<FolderDao>? ChildrenFolders;
+
+        public List<FolderDao>? ParentFolders;
+
+        public FileListModel(FolderDao currentFolder, List<CustomFileDao>? customFiles, List<FolderDao>? childrenFolders, List<FolderDao>? parentFolders)
         {
-            Folder = folder;
+            CurrentFolder = currentFolder;
             CustomFiles = customFiles;
+            ChildrenFolders = childrenFolders;
+            ParentFolders = parentFolders;
         }
     }
 }

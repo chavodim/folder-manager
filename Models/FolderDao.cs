@@ -12,11 +12,13 @@ namespace FolderManagerApp.Models
 
         public List<CustomFileDao>? Files { get; set; }
 
+        public string FolderPath { get; set; } = string.Empty;
+
         public int? ParentFolderId { get; set; }
 
         public FolderDao? ParentFolder { get; set; }
 
-        public ICollection<FolderDao> Children { get; set; }
+        public ICollection<FolderDao> ChildrenFolders { get; set; }
 
 
     }

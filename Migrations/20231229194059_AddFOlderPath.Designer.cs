@@ -4,6 +4,7 @@ using FolderManagerApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FolderManagerApp.Migrations
 {
     [DbContext(typeof(FolderManagerDbContext))]
-    partial class FolderManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231229194059_AddFOlderPath")]
+    partial class AddFOlderPath
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -144,13 +146,13 @@ namespace FolderManagerApp.Migrations
                         new
                         {
                             FolderId = 1,
-                            FolderName = "wwwroot",
+                            FolderName = "/wwwroot",
                             FolderPath = ""
                         },
                         new
                         {
                             FolderId = 2,
-                            FolderName = "files",
+                            FolderName = "/files",
                             FolderPath = "wwwroot/files",
                             ParentFolderId = 1
                         });

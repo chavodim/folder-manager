@@ -37,9 +37,19 @@ namespace FolderManagerApp.Repositories.Impl
             }
         }
 
+        public List<FolderDao>? GetChildrenFolders(int folderId)
+        {
+            return _folderManagerDbContext.Folders.Where(f => f.ParentFolderId == folderId).ToList();
+        }
+
         public FolderDao? GetFolderById(int folderId)
         {
             return _folderManagerDbContext.Folders.FirstOrDefault(folder => folder.FolderId == folderId);
+        }
+
+        public FolderDao? GetFolderByName(string name)
+        {
+            return _folderManagerDbContext.Folders.FirstOrDefault(folder => folder.FolderName == name);
         }
 
         public void UpdateFolder(FolderDao folder)

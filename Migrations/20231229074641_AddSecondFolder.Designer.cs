@@ -4,6 +4,7 @@ using FolderManagerApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FolderManagerApp.Migrations
 {
     [DbContext(typeof(FolderManagerDbContext))]
-    partial class FolderManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231229074641_AddSecondFolder")]
+    partial class AddSecondFolder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,10 +129,6 @@ namespace FolderManagerApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FolderPath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("ParentFolderId")
                         .HasColumnType("int");
 
@@ -144,14 +142,12 @@ namespace FolderManagerApp.Migrations
                         new
                         {
                             FolderId = 1,
-                            FolderName = "wwwroot",
-                            FolderPath = ""
+                            FolderName = "/wwwroot"
                         },
                         new
                         {
                             FolderId = 2,
-                            FolderName = "files",
-                            FolderPath = "wwwroot/files",
+                            FolderName = "/files",
                             ParentFolderId = 1
                         });
                 });
@@ -270,7 +266,7 @@ namespace FolderManagerApp.Migrations
             modelBuilder.Entity("FolderManagerApp.Models.FolderDao", b =>
                 {
                     b.HasOne("FolderManagerApp.Models.FolderDao", "ParentFolder")
-                        .WithMany("ChildrenFolders")
+                        .WithMany("Children")
                         .HasForeignKey("ParentFolderId")
                         .OnDelete(DeleteBehavior.NoAction);
 
@@ -295,7 +291,7 @@ namespace FolderManagerApp.Migrations
 
             modelBuilder.Entity("FolderManagerApp.Models.FolderDao", b =>
                 {
-                    b.Navigation("ChildrenFolders");
+                    b.Navigation("Children");
 
                     b.Navigation("Files");
                 });
