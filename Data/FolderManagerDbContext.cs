@@ -14,6 +14,12 @@ namespace FolderManagerApp.Data
 
         public DbSet<PieDao> Pies { get; set; }
 
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+
+        public DbSet<OrderDao> Orders { get; set; }
+
+        public DbSet<OrderDetailDao> OrderDetails { get; set; }
+
         public DbSet<FolderDao> Folders { get; set; }
 
         public DbSet<CustomFileDao> Files { get; set; }

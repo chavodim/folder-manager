@@ -10,6 +10,6 @@ namespace FolderManagerApp.Repositories
         List<FolderDao>? GetChildrenFolders(int folderId);
         void CreateFolder(FolderDao folder);
         void UpdateFolder(FolderDao folder);
-        void DeleteFolder(FolderDao folder);
+        void DeleteFolder(int folderId);
     }
 }

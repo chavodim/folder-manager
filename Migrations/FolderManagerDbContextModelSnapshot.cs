@@ -145,7 +145,7 @@ namespace FolderManagerApp.Migrations
                         {
                             FolderId = 1,
                             FolderName = "wwwroot",
-                            FolderPath = ""
+                            FolderPath = "wwwroot"
                         },
                         new
                         {
@@ -154,6 +154,101 @@ namespace FolderManagerApp.Migrations
                             FolderPath = "wwwroot/files",
                             ParentFolderId = 1
                         });
+                });
+
+            modelBuilder.Entity("FolderManagerApp.Models.OrderDao", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"), 1L, 1);
+
+                    b.Property<string>("AddressLine1")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("AddressLine2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("OrderPlaced")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("OrderTotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("State")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.HasKey("OrderId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("FolderManagerApp.Models.OrderDetailDao", b =>
+                {
+                    b.Property<int>("OrderDetailId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderDetailId"), 1L, 1);
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PieId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("OrderDetailId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("PieId");
+
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("FolderManagerApp.Models.PieDao", b =>
@@ -256,6 +351,30 @@ namespace FolderManagerApp.Migrations
                         });
                 });
 
+            modelBuilder.Entity("FolderManagerApp.Models.ShoppingCartItem", b =>
+                {
+                    b.Property<int>("ShoppingCartItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShoppingCartItemId"), 1L, 1);
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PieId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ShoppingCartId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ShoppingCartItemId");
+
+                    b.HasIndex("PieId");
+
+                    b.ToTable("ShoppingCartItems");
+                });
+
             modelBuilder.Entity("FolderManagerApp.Models.CustomFileDao", b =>
                 {
                     b.HasOne("FolderManagerApp.Models.FolderDao", "ParentFolder")
@@ -272,9 +391,28 @@ namespace FolderManagerApp.Migrations
                     b.HasOne("FolderManagerApp.Models.FolderDao", "ParentFolder")
                         .WithMany("ChildrenFolders")
                         .HasForeignKey("ParentFolderId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("ParentFolder");
+                });
+
+            modelBuilder.Entity("FolderManagerApp.Models.OrderDetailDao", b =>
+                {
+                    b.HasOne("FolderManagerApp.Models.OrderDao", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FolderManagerApp.Models.PieDao", "Pie")
+                        .WithMany()
+                        .HasForeignKey("PieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Pie");
                 });
 
             modelBuilder.Entity("FolderManagerApp.Models.PieDao", b =>
@@ -288,6 +426,17 @@ namespace FolderManagerApp.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("FolderManagerApp.Models.ShoppingCartItem", b =>
+                {
+                    b.HasOne("FolderManagerApp.Models.PieDao", "Pie")
+                        .WithMany()
+                        .HasForeignKey("PieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pie");
+                });
+
             modelBuilder.Entity("FolderManagerApp.Models.CategoryDao", b =>
                 {
                     b.Navigation("Pies");
@@ -298,6 +447,11 @@ namespace FolderManagerApp.Migrations
                     b.Navigation("ChildrenFolders");
 
                     b.Navigation("Files");
+                });
+
+            modelBuilder.Entity("FolderManagerApp.Models.OrderDao", b =>
+                {
+                    b.Navigation("OrderDetails");
                 });
 #pragma warning restore 612, 618
         }

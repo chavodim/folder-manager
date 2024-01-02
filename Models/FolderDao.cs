@@ -20,6 +20,17 @@ namespace FolderManagerApp.Models
 
         public ICollection<FolderDao> ChildrenFolders { get; set; }
 
+        public string FolderPathWithoutRoot()
+        {
+            int firstIndexOfSlash = FolderPath.IndexOf("/");
+
+            if (firstIndexOfSlash == -1)
+            {
+                return "";
+            }
+            return FolderPath.Substring(firstIndexOfSlash);
+        }
+
 
     }
 }
