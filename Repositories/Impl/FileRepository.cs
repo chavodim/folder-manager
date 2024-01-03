@@ -1,6 +1,5 @@
 using FolderManagerApp.Data;
 using FolderManagerApp.Models;
-using FolderManagerApp.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace FolderManagerApp.Repositories.Impl
@@ -22,24 +21,27 @@ namespace FolderManagerApp.Repositories.Impl
             }
         }
 
-        public void DeleteFile(int fileId)
+        public void DeleteFile(CustomFileDao customFileDao)
         {
-            var persistedFile = GetFileById(fileId);
-            if (persistedFile != null)
-            {
-                _folderManagerDbContext.Remove(persistedFile);
-                _folderManagerDbContext.SaveChanges();
-            }
+            _folderManagerDbContext.Remove(customFileDao);
+            _folderManagerDbContext.SaveChanges();
         }
 
         public CustomFileDao? GetFileById(int fileId)
         {
-            return _folderManagerDbContext.Files.FirstOrDefault(f => f.CustomFileId == fileId);
+            return _folderManagerDbContext.Files.Include(f => f.ParentFolder).FirstOrDefault(f => f.CustomFileId == fileId);
         }
 
         public List<CustomFileDao>? GetFilesByFolderId(int folderId)
         {
             return _folderManagerDbContext.Files.Include(f => f.ParentFolder).Where(f => f.ParentFolderId == folderId).ToList();
+        }
+
+        public void RenameFile(CustomFileDao customFileDao, string newFileName,string newDisplayName)
+        {
+            customFileDao.CustomFileName = newFileName;
+            customFileDao.CustomDisplayName = newDisplayName;
+            _folderManagerDbContext.SaveChanges();
         }
 
         public void SaveFile(CustomFileDao customFile)

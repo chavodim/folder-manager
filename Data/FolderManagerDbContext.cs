@@ -5,9 +5,11 @@ namespace FolderManagerApp.Data
 {
     public class FolderManagerDbContext : DbContext
     {
-        public FolderManagerDbContext(DbContextOptions<FolderManagerDbContext> options) :
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public FolderManagerDbContext(DbContextOptions<FolderManagerDbContext> options, IWebHostEnvironment webHostEnvironment) :
         base(options)
         {
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public DbSet<CategoryDao> Categories { get; set; }
@@ -36,22 +38,24 @@ namespace FolderManagerApp.Data
 
         }
 
-        private static void SeedFolders(ModelBuilder modelBuilder)
+        private void SeedFolders(ModelBuilder modelBuilder)
         {
+            int index = _webHostEnvironment.WebRootPath.LastIndexOf(@"\");
+            string rootFolderName = _webHostEnvironment.WebRootPath.Substring(index + 1);
 
             List<FolderDao> folders = new List<FolderDao>
             {
                 new()
                 {
                     FolderId = 1,
-                    FolderName = "wwwroot",
-                    FolderPath = "wwwroot"
+                    FolderName = rootFolderName,
+                    FolderPath = rootFolderName
                 },
                 new()
                 {
                     FolderId = 2,
                     FolderName = "files",
-                    FolderPath = "wwwroot/files",
+                    FolderPath = rootFolderName + @"\files",
                     ParentFolderId = 1
                 }
             };
@@ -65,7 +69,7 @@ namespace FolderManagerApp.Data
             modelBuilder.Entity<FolderDao>().HasData(folders);
         }
 
-        private static void SeedCustomFiles(ModelBuilder modelBuilder)
+        private void SeedCustomFiles(ModelBuilder modelBuilder)
         {
             List<CustomFileDao> fileDaos = new List<CustomFileDao>
             {
@@ -73,6 +77,7 @@ namespace FolderManagerApp.Data
                 {
                     CustomFileId = 1,
                     CustomFileName = "File 1",
+                    CustomDisplayName = "File 1",
                     CustomFileData = System.Text.Encoding.UTF8.GetBytes("Hello World!"),
                     ParentFolderId = 2,
                     CustomFileFormat = "txt"
@@ -81,6 +86,7 @@ namespace FolderManagerApp.Data
                 {
                     CustomFileId = 2,
                     CustomFileName = "File 2",
+                    CustomDisplayName = "File 2",
                     CustomFileData = System.Text.Encoding.UTF8.GetBytes("Bye World!"),
                     ParentFolderId = 2,
                     CustomFileFormat = "txt"
@@ -89,6 +95,7 @@ namespace FolderManagerApp.Data
                 {
                     CustomFileId = 3,
                     CustomFileName = "File 3",
+                    CustomDisplayName = "File 3",
                     CustomFileData = System.Text.Encoding.UTF8.GetBytes("Hello again!"),
                     ParentFolderId = 2,
                     CustomFileFormat = "txt"
@@ -98,7 +105,7 @@ namespace FolderManagerApp.Data
             modelBuilder.Entity<CustomFileDao>().HasData(fileDaos);
         }
 
-        private static void SeedPies(ModelBuilder modelBuilder)
+        private void SeedPies(ModelBuilder modelBuilder)
         {
             List<PieDao> pies = new List<PieDao>
                     {
@@ -111,7 +118,7 @@ namespace FolderManagerApp.Data
             modelBuilder.Entity<PieDao>().HasData(pies);
         }
 
-        private static void SeedCategories(ModelBuilder modelBuilder)
+        private void SeedCategories(ModelBuilder modelBuilder)
         {
             List<CategoryDao> categories = new List<CategoryDao>
             {

@@ -67,6 +67,10 @@ namespace FolderManagerApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomFileId"), 1L, 1);
 
+                    b.Property<string>("CustomDisplayName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<byte[]>("CustomFileData")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
@@ -92,6 +96,7 @@ namespace FolderManagerApp.Migrations
                         new
                         {
                             CustomFileId = 1,
+                            CustomDisplayName = "File 1",
                             CustomFileData = new byte[] { 72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33 },
                             CustomFileFormat = "txt",
                             CustomFileName = "File 1",
@@ -100,6 +105,7 @@ namespace FolderManagerApp.Migrations
                         new
                         {
                             CustomFileId = 2,
+                            CustomDisplayName = "File 2",
                             CustomFileData = new byte[] { 66, 121, 101, 32, 87, 111, 114, 108, 100, 33 },
                             CustomFileFormat = "txt",
                             CustomFileName = "File 2",
@@ -108,6 +114,7 @@ namespace FolderManagerApp.Migrations
                         new
                         {
                             CustomFileId = 3,
+                            CustomDisplayName = "File 3",
                             CustomFileData = new byte[] { 72, 101, 108, 108, 111, 32, 97, 103, 97, 105, 110, 33 },
                             CustomFileFormat = "txt",
                             CustomFileName = "File 3",
@@ -151,7 +158,7 @@ namespace FolderManagerApp.Migrations
                         {
                             FolderId = 2,
                             FolderName = "files",
-                            FolderPath = "wwwroot/files",
+                            FolderPath = "wwwroot\\files",
                             ParentFolderId = 1
                         });
                 });
@@ -391,7 +398,7 @@ namespace FolderManagerApp.Migrations
                     b.HasOne("FolderManagerApp.Models.FolderDao", "ParentFolder")
                         .WithMany("ChildrenFolders")
                         .HasForeignKey("ParentFolderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("ParentFolder");
                 });

@@ -12,11 +12,16 @@ namespace FolderManagerApp.Controllers
         {
             _pieRepository = pieRepository;
         }
+        //public IActionResult Index()
+        //{
+        //    var piesOfTheWeek = _pieRepository.PiesOfTheWeek;
+        //    var homeVieModel = new HomeViewModel(piesOfTheWeek);
+        //    return View(homeVieModel);
+        //}
+
         public IActionResult Index()
         {
-            var piesOfTheWeek = _pieRepository.PiesOfTheWeek;
-            var homeVieModel = new HomeViewModel(piesOfTheWeek);
-            return View(homeVieModel);
+            return RedirectToAction("Details", "Folder", new { id = 1 });
         }
     }
 }

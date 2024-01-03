@@ -1,6 +1,5 @@
 using FolderManagerApp.Data;
 using FolderManagerApp.Models;
-using FolderManagerApp.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace FolderManagerApp.Repositories.Impl
@@ -8,12 +7,10 @@ namespace FolderManagerApp.Repositories.Impl
     public class FolderRepository : IFolderRepository
     {
         private readonly FolderManagerDbContext _folderManagerDbContext;
-        private readonly IFileRepository _fileRepository;
 
-        public FolderRepository(FolderManagerDbContext folderManagerDbContext, IFileRepository fileRepository)
+        public FolderRepository(FolderManagerDbContext folderManagerDbContext)
         {
             _folderManagerDbContext = folderManagerDbContext;
-            _fileRepository = fileRepository;
         }
 
         public IEnumerable<FolderDao> AllFolders
@@ -47,19 +44,16 @@ namespace FolderManagerApp.Repositories.Impl
             return _folderManagerDbContext.Folders.FirstOrDefault(folder => folder.FolderName == name);
         }
 
-        public void UpdateFolder(FolderDao folder)
+        public void RenameFolder(FolderDao folder, string newName)
         {
-            var persistedFolder = GetFolderById(folder.FolderId);
-            if (persistedFolder != null)
-            {
-                persistedFolder.FolderName = folder.FolderName;
-                _folderManagerDbContext.SaveChanges();
-            }
+            folder.FolderPath = folder.FolderPath.Replace(folder.FolderName, newName);
+            folder.FolderName = newName;
+            _folderManagerDbContext.SaveChanges();
         }
 
-        //TODO written with ChatGPT - review it
-        public void DeleteFolder(int folderId)
+        public void DeleteFolder(int folderId, string folderPath)
         {
+            if (Directory.Exists(folderPath)) return;
             using (var transaction = _folderManagerDbContext.Database.BeginTransaction())
             {
                 try
@@ -82,19 +76,25 @@ namespace FolderManagerApp.Repositories.Impl
                 .Include(f => f.ChildrenFolders)
                 .FirstOrDefault(f => f.FolderId == folderId);
 
-            if (folder == null || folder.Files == null)
+            if (folder == null)
             {
                 return;
             }
 
-            foreach (var file in folder.Files.ToList())
+            if (folder.Files != null)
             {
-                _fileRepository.DeleteFile(file.CustomFileId);
+                foreach (var item in folder.Files)
+                {
+                    _folderManagerDbContext.Remove(item);
+                }
             }
 
-            foreach (var childFolder in folder.ChildrenFolders.ToList())
+            if (folder.ChildrenFolders != null)
             {
-                RecursiveDelete(childFolder.FolderId);
+                foreach (var childFolder in folder.ChildrenFolders)
+                {
+                    RecursiveDelete(childFolder.FolderId);
+                }
             }
 
             _folderManagerDbContext.Folders.Remove(folder);

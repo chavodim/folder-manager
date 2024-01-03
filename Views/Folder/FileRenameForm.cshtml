@@ -1,0 +1,21 @@
+﻿@model FileRenameView
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6 mt-5">
+            <form asp-action="RenameFile" role="form" method="post">
+
+                <input type="hidden" name="fileId" value="@Model.FileId" />
+                <label asp-for="NewDisplayName" class="form-label">New Display Name</label>
+                <input asp-for="NewDisplayName" class="form-control" />
+
+                <label asp-for="NewFileName" class="form-label">New File Name</label>
+                <input asp-for="NewFileName" class="form-control" />
+
+                <input type="hidden" name="folderId" value="@Model.FolderId" />
+
+                <input class="btn btn-primary mt-3 text-white" type="submit" value="Save" />
+            </form>
+        </div>
+    </div>
+</div>

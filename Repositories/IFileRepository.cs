@@ -8,6 +8,8 @@ namespace FolderManagerApp.Repositories
         void SaveFile(CustomFileDao customFile);
         CustomFileDao? GetFileById(int fileId);
         List<CustomFileDao>? GetFilesByFolderId(int folderId);
-        void DeleteFile(int fileId);
+
+        void RenameFile(CustomFileDao customFileDao, string newFileName, string newDisplayName);
+        void DeleteFile(CustomFileDao customFileDao);
     }
 }

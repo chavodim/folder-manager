@@ -18,11 +18,11 @@ namespace FolderManagerApp.Models
 
         public FolderDao? ParentFolder { get; set; }
 
-        public ICollection<FolderDao> ChildrenFolders { get; set; }
+        public List<FolderDao>? ChildrenFolders { get; set; }
 
         public string FolderPathWithoutRoot()
         {
-            int firstIndexOfSlash = FolderPath.IndexOf("/");
+            int firstIndexOfSlash = FolderPath.IndexOf(@"\");
 
             if (firstIndexOfSlash == -1)
             {

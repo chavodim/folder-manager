@@ -1,0 +1,17 @@
+﻿@model FolderCreateView
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6 mt-5">
+            <form asp-action="CreateFolder" role="form" method="post">
+                <label asp-for="FolderName" class="form-label">Folder Name</label>
+                <input asp-for="FolderName" class="form-control" />
+
+                <input type="hidden" name="folderId" value="@Model.FolderId" />
+                <div class="text-end">
+                    <input class="btn btn-primary mt-3 text-white" type="submit" value="Save" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+﻿@model FileCreateView
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6 mt-5">
+            <form asp-action="CreateFile" role="form" enctype="multipart/form-data" method="post">
+                <label asp-for="DisplayName" class="form-label">File Name</label>
+                <input asp-for="DisplayName" class="form-control"/>
+
+                <input asp-for="FormFile" class="form-control" type="file" />
+                <span asp-validation-for="FormFile" class="text-danger"></span>
+
+                <input type="hidden" name="folderId" value="@Model.FolderId" />
+                <div class="text-end">
+                    <input class="btn btn-primary mt-3 text-white" type="submit" value="Save" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

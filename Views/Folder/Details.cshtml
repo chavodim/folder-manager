@@ -26,18 +26,19 @@
     </h3>
 </div>
 <div class="row">
-    <table class="table table-striped">
+@if (Model.ChildrenFolders != null && Model.ChildrenFolders.Any())
+    {
+        <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">Name</th>.
-                    <th scope="col">Format</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
-			<tbody>
-            @if (Model.ChildrenFolders != null)
-            {
+            <tbody>
+
                 @foreach (var folder in Model.ChildrenFolders)
                 {
                     <tr>
@@ -50,22 +51,45 @@
                             Folder
                         </td>
                         <td class="fit">
+                            <form asp-controller="Folder" asp-action="FolderRenameForm"
+                                    asp-route-parentFolderId="@folder.ParentFolderId" asp-route-folderId="@folder.FolderId"
+                                    method="post">
+                                <button class="btn btn-primary text-white" type="submit">Rename</button>
+                            </form>
+                        </td>
+                        <td class="fit">
                             <form asp-controller="Folder" asp-action="DeleteFolder"
-                                  asp-route-parentFolderId="@folder.ParentFolderId" asp-route-folderId="@folder.FolderId"
-                                  method="post"
-                                  onclick="return confirm('All files and directories under this directory will be deleted. Are you sure?')">
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                    asp-route-parentFolderId="@folder.ParentFolderId" asp-route-folderId="@folder.FolderId"
+                                    method="post"
+                                    onclick="return confirm('All files and directories under this directory will be deleted. Are you sure?')">
+                                <button class ="btn btn-danger text-white" type="submit">Delete</button>
                             </form>
                         </td>
                     </tr>
                 }
-            }
-
-            @if (Model.CustomFiles != null)
-            {
+                </tbody>
+            </table>
+    }
+@if (Model.CustomFiles != null && Model.CustomFiles.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Display Name</th>
+                    <th scope="col">File Name</th>
+                    <th scope="col">Format</th>
+                    <th scope="col">Type</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
                 @foreach (var file in Model.CustomFiles)
                 {
                     <tr>
+                        <td>
+                            @file.CustomDisplayName
+                        </td>
                         <td>
                             @file.CustomFileName
                         </td>
@@ -73,35 +97,48 @@
                             @file.CustomFileFormat
                         </td>
                         <td class="fit">
-                            <form asp-controller="Folder" asp-action="DeleteFile"
+                            File
+                        </td>
+                        <td class="fit">
+                            <form asp-controller="Folder" asp-action="FileRenameForm"
                             asp-route-folderId="@file.ParentFolderId" asp-route-fileId="@file.CustomFileId"
-                                  method="post"
-                                  onclick="return confirm('Are you sure you want to delete this?')">
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                            method="post">
+                                <button class="btn btn-primary text-white" type="submit">Rename</button>
                             </form>
                         </td>
                         <td class="fit">
-                            <a class="btn btn-primary" type="submit" href="@file.CustomFilePath" 
+                            <form asp-controller="Folder" asp-action="DeleteFile"
+                            asp-route-fileId="@file.CustomFileId"
+                            method="post"
+                            onclick="return confirm('Are you sure you want to delete this?')">
+                                <button class="btn btn-danger text-white" type="submit">Delete</button>
+                            </form>
+                        </td>
+                        <td class="fit">
+                            <a class="btn btn-primary text-white" type="submit" href="@file.CustomFilePath"
                             download="@file.CustomFileName">
                                 Download
                             </a>
                         </td>
                     </tr>
                 }
-            }
-                </tbody>
-            </table>
+
+            </tbody>
+        </table>
+    }
 </div>
+
+
 <div class="row">
     <h4>
         <a class="btn btn-secondary"
             asp-controller="Folder"
-            asp-action="CreateFileForm"
+            asp-action="FileCreateForm"
             asp-route-folderId="@Model.CurrentFolder.FolderId">Add file</a>
 
         <a class="btn btn-secondary"
            asp-controller="Folder"
-           asp-action="CreateFolderForm"
+           asp-action="FolderCreateForm"
            asp-route-folderId="@Model.CurrentFolder.FolderId">Add folder</a>
     </h4>
 </div>

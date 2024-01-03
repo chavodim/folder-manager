@@ -8,6 +8,7 @@ namespace FolderManagerApp.Models
         public int CustomFileId { get; set; }
 
         public string CustomFileName { get; set; } = string.Empty;
+        public string CustomDisplayName { get; set; } = string.Empty;
 
         public byte[] CustomFileData { get; set; } = new byte[0];
 
