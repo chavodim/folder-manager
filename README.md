@@ -1,4 +1,4 @@
-# Chavo Folder Manager
+# Chavo's Folder Manager
 
 ## Project Description
 Chavo Folder Manager is a web application that allows users to browse through folders, manage files, and organize digital content efficiently. 
