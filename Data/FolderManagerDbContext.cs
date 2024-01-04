@@ -80,7 +80,8 @@ namespace FolderManagerApp.Data
                     CustomDisplayName = "File 1",
                     CustomFileData = System.Text.Encoding.UTF8.GetBytes("Hello World!"),
                     ParentFolderId = 2,
-                    CustomFileFormat = "txt"
+                    CustomFileFormat = "txt",
+                    CustomFileSize = 1000
                 },
                 new()
                 {
@@ -89,7 +90,8 @@ namespace FolderManagerApp.Data
                     CustomDisplayName = "File 2",
                     CustomFileData = System.Text.Encoding.UTF8.GetBytes("Bye World!"),
                     ParentFolderId = 2,
-                    CustomFileFormat = "txt"
+                    CustomFileFormat = "txt",
+                    CustomFileSize = 1000
                 },
                 new()
                 {
@@ -98,7 +100,8 @@ namespace FolderManagerApp.Data
                     CustomDisplayName = "File 3",
                     CustomFileData = System.Text.Encoding.UTF8.GetBytes("Hello again!"),
                     ParentFolderId = 2,
-                    CustomFileFormat = "txt"
+                    CustomFileFormat = "txt",
+                    CustomFileSize = 1000
                 }
             };
 

@@ -83,6 +83,9 @@ namespace FolderManagerApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("CustomFileSize")
+                        .HasColumnType("float");
+
                     b.Property<int>("ParentFolderId")
                         .HasColumnType("int");
 
@@ -100,6 +103,7 @@ namespace FolderManagerApp.Migrations
                             CustomFileData = new byte[] { 72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33 },
                             CustomFileFormat = "txt",
                             CustomFileName = "File 1",
+                            CustomFileSize = 1000.0,
                             ParentFolderId = 2
                         },
                         new
@@ -109,6 +113,7 @@ namespace FolderManagerApp.Migrations
                             CustomFileData = new byte[] { 66, 121, 101, 32, 87, 111, 114, 108, 100, 33 },
                             CustomFileFormat = "txt",
                             CustomFileName = "File 2",
+                            CustomFileSize = 1000.0,
                             ParentFolderId = 2
                         },
                         new
@@ -118,6 +123,7 @@ namespace FolderManagerApp.Migrations
                             CustomFileData = new byte[] { 72, 101, 108, 108, 111, 32, 97, 103, 97, 105, 110, 33 },
                             CustomFileFormat = "txt",
                             CustomFileName = "File 3",
+                            CustomFileSize = 1000.0,
                             ParentFolderId = 2
                         });
                 });

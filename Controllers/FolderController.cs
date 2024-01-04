@@ -27,7 +27,7 @@ namespace FolderManagerApp.Controllers
             }
             List<string> folderNames = persistedFolder.FolderPath.Split(@"\").ToList();
 
-            List<FolderDao> parentFolders = new List<FolderDao>();
+            List<FolderDao> parentFolders = new();
 
             folderNames.ForEach(name =>
             {
@@ -44,35 +44,39 @@ namespace FolderManagerApp.Controllers
             return View(fileListModel);
         }
 
-        public IActionResult FileCreateForm(int folderId)
+        public IActionResult CreateFile(int folderId, string folderName)
         {
-            FileCreateView FileCreateView = new FileCreateView();
-            FileCreateView.FolderId = folderId;
+            FileCreateView FileCreateView = new()
+            {
+                FolderId = folderId,
+                FolderName = folderName
+            };
             return View(FileCreateView);
         }
 
         //TODO exe, zip files cannot be saves
 
         [HttpPost]
+        [RequestSizeLimit(1_000_000)]
         public async Task<IActionResult> CreateFile(FileCreateView fileCreateView)
         {
+            if (!ModelState.IsValid) return View(fileCreateView);
+
             IFormFile formFile = fileCreateView.FormFile;
             FolderDao? folderDao = _folderRepository.GetFolderById(fileCreateView.FolderId);
-            string filePath = _webHostEnvironment.WebRootPath + folderDao.FolderPathWithoutRoot() + @"\" + formFile.FileName;
-            byte[] fileContent = new byte[0];
+            string filePath = _webHostEnvironment.WebRootPath + folderDao?.FolderPathWithoutRoot() + @"\" + formFile.FileName;
+            byte[] fileContent = Array.Empty<byte>();
 
             if (formFile.Length > 0)
             {
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     await formFile.CopyToAsync(fileStream);
-                    
+
                 }
-                using (var ms = new MemoryStream())
-                {
-                    await formFile.CopyToAsync(ms);
-                    fileContent = ms.ToArray();
-                }
+                using var ms = new MemoryStream();
+                await formFile.CopyToAsync(ms);
+                fileContent = ms.ToArray();
             }
 
             int dotIndex = formFile.FileName.LastIndexOf('.');
@@ -82,7 +86,8 @@ namespace FolderManagerApp.Controllers
                 CustomDisplayName = fileCreateView.DisplayName,
                 CustomFileData = fileContent,
                 CustomFileFormat = formFile.FileName.Substring(dotIndex + 1),
-                ParentFolderId = fileCreateView.FolderId
+                ParentFolderId = fileCreateView.FolderId,
+                CustomFileSize = fileCreateView.FormFile.Length
             };
 
             _fileRepository.SaveFile(customFileDao);
@@ -94,7 +99,7 @@ namespace FolderManagerApp.Controllers
         {
             FolderCreateView folderCreateView = new FolderCreateView
             {
-                FolderId = folderId 
+                FolderId = folderId
             };
             return View(folderCreateView);
         }

@@ -17,11 +17,13 @@ namespace FolderManagerApp.Models
 
         public string CustomFileFormat { get; set; } = string.Empty;
 
+        public double CustomFileSize {  get; set; }
+
         public string CustomFilePath
         {
             get
             {
-                return ParentFolder.FolderPathWithoutRoot() +"/" + CustomFileName + "." + CustomFileFormat;
+                return ParentFolder.FolderPathWithoutRoot() + @"\" + CustomFileName + "." + CustomFileFormat;
             }
         }
 
