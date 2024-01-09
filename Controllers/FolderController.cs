@@ -95,11 +95,12 @@ namespace FolderManagerApp.Controllers
             return RedirectToAction("Details", new { id = fileCreateView.FolderId });
         }
 
-        public IActionResult FolderCreateForm(int folderId)
+        public IActionResult CreateFolder(int currentFolderId, string currentFolderName)
         {
-            FolderCreateView folderCreateView = new FolderCreateView
+            FolderCreateView folderCreateView = new()
             {
-                FolderId = folderId
+                CurrentFolderId = currentFolderId,
+                CurrentFolderName = currentFolderName
             };
             return View(folderCreateView);
         }
@@ -107,7 +108,9 @@ namespace FolderManagerApp.Controllers
         [HttpPost]
         public IActionResult CreateFolder(FolderCreateView folderCreateView)
         {
-            FolderDao? parentFolder = _folderRepository.GetFolderById(folderCreateView.FolderId);
+            if (!ModelState.IsValid) return View(folderCreateView);
+
+            FolderDao? parentFolder = _folderRepository.GetFolderById(folderCreateView.CurrentFolderId);
             string newFolderPath = _webHostEnvironment.WebRootPath + parentFolder.FolderPathWithoutRoot();
             DirectoryInfo directory = new DirectoryInfo(newFolderPath);
             directory.CreateSubdirectory(folderCreateView.FolderName);
@@ -116,11 +119,11 @@ namespace FolderManagerApp.Controllers
             {
                 FolderName = folderCreateView.FolderName,
                 FolderPath = parentFolder.FolderPath + @"\" + folderCreateView.FolderName,
-                ParentFolderId = folderCreateView.FolderId,
+                ParentFolderId = folderCreateView.CurrentFolderId,
 
             };
             _folderRepository.CreateFolder(folderDao);
-            return RedirectToAction("Details", new { id = folderCreateView.FolderId });
+            return RedirectToAction("Details", new { id = folderCreateView.CurrentFolderId });
         }
 
         public IActionResult FileRenameForm(int folderId, int fileId)

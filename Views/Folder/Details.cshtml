@@ -156,7 +156,8 @@
 
         <a class="btn btn-secondary"
            asp-controller="Folder"
-           asp-action="FolderCreateForm"
-           asp-route-folderId="@Model.CurrentFolder.FolderId">Add folder</a>
+           asp-action="CreateFolder"
+           asp-route-currentFolderId="@Model.CurrentFolder.FolderId"
+           asp-route-currentFolderName="@Model.CurrentFolder.FolderName">Add folder</a>
     </h4>
 </div>
