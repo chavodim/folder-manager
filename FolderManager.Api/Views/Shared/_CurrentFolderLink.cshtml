@@ -1,0 +1,7 @@
+﻿@model ParentFolderLinkView
+
+<div>
+    <a asp-controller="Folder" asp-action="Details" asp-route-id="@Model.ParentFolderId">
+        @Model.ParentFolderName
+    </a>
+</div>

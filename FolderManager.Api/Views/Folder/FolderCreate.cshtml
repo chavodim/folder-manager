@@ -1,0 +1,23 @@
+﻿@model FolderCreateView
+
+<div>
+    @await Html.PartialAsync("_CurrentFolderLink", Model)
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6 mt-5">
+            <form asp-action="FolderCreate" role="form" method="post">
+                <label asp-for="FolderName" class="form-label">Folder Name</label>
+                <input asp-for="FolderName" class="form-control" />
+                <span asp-validation-for="FolderName" class="text-danger"></span>
+
+                <input type="hidden" asp-for="ParentFolderId" value="@Model.ParentFolderId" />
+                <input type="hidden" asp-for="ParentFolderName" value="@Model.ParentFolderName" />
+                <div class="text-end">
+                    <input class="btn btn-primary mt-3 text-white" type="submit" value="Save" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
