@@ -44,12 +44,12 @@ namespace FolderManagerApp.Controllers
             return View(fileListModel);
         }
 
-        public IActionResult CreateFile(int folderId, string folderName)
+        public IActionResult FileCreate(int folderId, string folderName)
         {
             FileCreateView FileCreateView = new()
             {
-                FolderId = folderId,
-                FolderName = folderName
+                CurrentFolderId = folderId,
+                CurrentFolderName = folderName
             };
             return View(FileCreateView);
         }
@@ -58,12 +58,12 @@ namespace FolderManagerApp.Controllers
 
         [HttpPost]
         [RequestSizeLimit(1_000_000)]
-        public async Task<IActionResult> CreateFile(FileCreateView fileCreateView)
+        public async Task<IActionResult> FileCreate(FileCreateView fileCreateView)
         {
             if (!ModelState.IsValid) return View(fileCreateView);
 
             IFormFile formFile = fileCreateView.FormFile;
-            FolderDao? folderDao = _folderRepository.GetFolderById(fileCreateView.FolderId);
+            FolderDao? folderDao = _folderRepository.GetFolderById(fileCreateView.CurrentFolderId);
             string filePath = _webHostEnvironment.WebRootPath + folderDao?.FolderPathWithoutRoot() + @"\" + formFile.FileName;
             byte[] fileContent = Array.Empty<byte>();
 
@@ -86,16 +86,17 @@ namespace FolderManagerApp.Controllers
                 CustomDisplayName = fileCreateView.DisplayName,
                 CustomFileData = fileContent,
                 CustomFileFormat = formFile.FileName.Substring(dotIndex + 1),
-                ParentFolderId = fileCreateView.FolderId,
+                ParentFolderId = fileCreateView.CurrentFolderId,
                 CustomFileSize = fileCreateView.FormFile.Length
             };
 
             _fileRepository.SaveFile(customFileDao);
 
-            return RedirectToAction("Details", new { id = fileCreateView.FolderId });
+            return RedirectToAction("Details", new { id = fileCreateView.CurrentFolderId });
         }
 
-        public IActionResult CreateFolder(int currentFolderId, string currentFolderName)
+        [HttpGet]
+        public IActionResult FolderCreate(int currentFolderId, string currentFolderName)
         {
             FolderCreateView folderCreateView = new()
             {
@@ -106,7 +107,7 @@ namespace FolderManagerApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateFolder(FolderCreateView folderCreateView)
+        public IActionResult FolderCreate(FolderCreateView folderCreateView)
         {
             if (!ModelState.IsValid) return View(folderCreateView);
 
@@ -126,23 +127,27 @@ namespace FolderManagerApp.Controllers
             return RedirectToAction("Details", new { id = folderCreateView.CurrentFolderId });
         }
 
-        public IActionResult FileRenameForm(int folderId, int fileId)
+        [HttpGet]
+        public IActionResult FileRename(int folderId, int fileId, string folderName)
         {
             CustomFileDao? persistedFile = _fileRepository.GetFileById(fileId);
             if (persistedFile == null) return NotFound();
-            FileRenameView fileRenameView = new FileRenameView
+            FileRenameView fileRenameView = new()
             {
                 FileId = fileId,
                 NewFileName = persistedFile.CustomFileName,
                 NewDisplayName = persistedFile.CustomDisplayName,
-                FolderId = folderId
+                CurrentFolderId = folderId,
+                CurrentFolderName = folderName
             };
             return View(fileRenameView);
         }
 
         [HttpPost]
-        public IActionResult RenameFile(FileRenameView fileRenameView)
+        public IActionResult FileRename(FileRenameView fileRenameView)
         {
+            if (!ModelState.IsValid) { return View(fileRenameView); };
+
             CustomFileDao? customFileDao = _fileRepository.GetFileById(fileRenameView.FileId);
             if (customFileDao == null) return NotFound();
             string filepath = _webHostEnvironment.WebRootPath + customFileDao.CustomFilePath;
@@ -153,7 +158,7 @@ namespace FolderManagerApp.Controllers
             return RedirectToAction("Details", new { id = customFileDao.ParentFolderId });
         }
 
-        public IActionResult FolderRenameForm(int parentFolderId, int folderId)
+        public IActionResult FolderRename(int parentFolderId, int folderId)
         {
             FolderDao? persistedFolder = _folderRepository.GetFolderById(folderId);
             if (persistedFolder == null) return NotFound();
@@ -167,7 +172,7 @@ namespace FolderManagerApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult RenameFolder(FolderRenameView folderRenameView)
+        public IActionResult FolderRename(FolderRenameView folderRenameView)
         {
             FolderDao? folderDao = _folderRepository.GetFolderById(folderRenameView.FolderId);
             if (folderDao == null) return NotFound();
@@ -179,7 +184,7 @@ namespace FolderManagerApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteFile(int fileId)
+        public IActionResult FileDelete(int fileId)
         {
             CustomFileDao? customFileDao = _fileRepository.GetFileById(fileId);
             if (customFileDao == null) return NotFound();
@@ -192,7 +197,7 @@ namespace FolderManagerApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteFolder(int parentFolderId, int folderId)
+        public IActionResult FolderDelete(int parentFolderId, int folderId)
         {
             FolderDao? folderDao = _folderRepository.GetFolderById(folderId);
             if (folderDao == null) return NotFound();

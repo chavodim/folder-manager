@@ -1,9 +1,7 @@
 ﻿@model FolderCreateView
 
 <div>
-    <a asp-controller="Folder" asp-action="Details" asp-route-id="@Model.CurrentFolderId">
-        @Model.CurrentFolderName
-    </a>
+    @await Html.PartialAsync("_CurrentFolderLink", Model)
 </div>
 
 <div class="container">

@@ -151,9 +151,5 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="lib\" />
-  </ItemGroup>
   
 </Project>

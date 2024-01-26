@@ -1,9 +1,7 @@
 ﻿@model FileCreateView
 
 <div>
-    <a asp-controller="Folder" asp-action="Details" asp-route-id="@Model.FolderId">
-        @Model.FolderName
-    </a>
+    @await Html.PartialAsync("_CurrentFolderLink", Model)
 </div>
 
 <div class="container">
@@ -21,8 +19,8 @@
                 onchange="checkFileSize()"/>
                 <span asp-validation-for="FormFile" class="text-danger"></span>
 
-                <input type="hidden" name="folderId" value="@Model.FolderId" />
-                <input type="hidden" name="folderName" value="@Model.FolderName" />
+                <input type="hidden" name="folderId" value="@Model.CurrentFolderId" />
+                <input type="hidden" name="folderName" value="@Model.CurrentFolderName" />
                 <div class="text-end">
                     <input class="btn btn-primary mt-3 text-white" type="submit" value="Save" />
                 </div>
