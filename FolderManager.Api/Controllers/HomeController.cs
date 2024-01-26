@@ -14,7 +14,7 @@ namespace FolderManagerApp.Controllers
 
         public IActionResult Index()
         {
-            int? rootId = _folderRepository.GetFolderByName("root")?.FolderId;
+            int? rootId = _folderRepository.Find(folder => folder.FolderName.ToLower().Equals("root")).First().FolderId;
             return RedirectToAction("Details", "Folder", new { id = rootId });
         }
     }
