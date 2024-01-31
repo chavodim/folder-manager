@@ -20,11 +20,6 @@ namespace FolderManagerApp.Repositories.Impl
             }
         }
 
-        public List<CustomFile>? GetFilesByFolderId(int folderId)
-        {
-            return folderManagerDbContext.Files.Include(f => f.ParentFolder).Where(f => f.ParentFolderId == folderId).ToList();
-        }
-
         public void RenameFile(CustomFile customFileDao, string newFileName,string newDisplayName)
         {
             customFileDao.CustomFileName = newFileName;

@@ -1,6 +1,7 @@
 using FolderManager.Infrastructure.Repositories.Impl;
 using FolderManagerApp.Data;
 using FolderManagerApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FolderManagerApp.Repositories.Impl
 {
@@ -10,9 +11,18 @@ namespace FolderManagerApp.Repositories.Impl
         {
         }
 
+        public Folder? GetFolderByIdWithFiles(int folderId)
+        {
+            return folderManagerDbContext.Folders
+                .Include(f => f.Files)
+                .FirstOrDefault(f => f.FolderId == folderId);
+        }
+
         public List<Folder>? GetChildrenFolders(int folderId)
         {
-            return folderManagerDbContext.Folders.Where(f => f.ParentFolderId == folderId).ToList();
+            return folderManagerDbContext.Folders
+                .Where(f => f.ParentFolderId == folderId)
+                .ToList();
         }
 
         public void RenameFolder(Folder folder, string newName)
