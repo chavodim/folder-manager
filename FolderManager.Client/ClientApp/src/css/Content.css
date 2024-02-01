@@ -1,0 +1,38 @@
+.fact {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    align-items: center;
+    border: 1px solid #ccc;
+}
+
+.fact-title {
+    margin: auto;
+    width: 50%;
+    align-items: center;
+    padding: 10px;
+}
+
+.circle {
+    margin: auto;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    padding: 10px;
+    background: #ccc;
+    border: 3px solid #fff;
+    color: #000;
+    text-align: center;
+    display: inline-block;
+}
+
+.liked {
+    display: inline-block;
+    margin: 10px;
+}
+
+.like-btn {
+    margin-left: 10px;
+    box-shadow: #ccc 1px 0.5px 0.5px 0.5px;
+    padding: 0px;
+}
